@@ -5,7 +5,7 @@ import {
 import _ from 'lodash';
 
 const hours = 8;
-const linesPerHour = 12;  //every 5min
+const linesPerHour = 60;
 
 export default class GraphRenderer {
   constructor({root, width, height}) {
@@ -17,7 +17,7 @@ export default class GraphRenderer {
 
     this.linesCount = hours * linesPerHour;
     this.singleLineProgress = 1 / this.linesCount;
-    this.lineHeight = Math.ceil(height / this.linesCount);
+    this.lineHeight = height / this.linesCount;
     this.lineWidth = width;
   }
 
@@ -41,15 +41,15 @@ export default class GraphRenderer {
     linesEntered
     .attr('transform', (d, i) => `translate(0, ${i * this.lineHeight})`)
     .append('rect')
-    .attr('height', this.lineHeight)
-    .attr('width', d => d * this.lineWidth);
+    .attr('height', Math.ceil(this.lineHeight) + 1)
+    .attr('width', this.lineWidth)
+    .attr('transform', d => `scale(${d}, 1)`);
 
     lines
     .select('rect')
-    .attr('height', this.lineHeight)
     .transition()
     .ease(easeLinear)
     .duration(1000)
-    .attr('width', d => d * this.lineWidth);
+    .attr('transform', d => `scale(${d}, 1)`);
   }
 }

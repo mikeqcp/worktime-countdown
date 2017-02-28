@@ -4,7 +4,6 @@ require('styles/App.css');
 import React from 'react';
 import Graph from './Graph/Graph';
 import moment from 'moment';
-import _ from 'lodash';
 
 const startHour = 9;
 const endHour = 17;
@@ -32,7 +31,7 @@ class AppComponent extends React.Component {
   }
 
   displayPercentage() {
-    return _.round(this.state.progress * 100, 2);
+    return parseFloat(this.state.progress * 100).toFixed(2);
   }
 
   displayTimeLeft() {
