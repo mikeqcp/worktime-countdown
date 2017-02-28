@@ -10,11 +10,24 @@ export default class Graph extends React.Component {
     });
 
     this.graphRenderer.render(this.props.progress);
+
+    this.onResize = () => {
+      this.graphRenderer.resize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', this.onResize);
   }
 
   componentWillReceiveProps(props) {
     const progress = Math.max(0, Math.min(1, props.progress));
     this.graphRenderer.render(progress);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   render() {

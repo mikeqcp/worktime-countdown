@@ -11,7 +11,13 @@ export default class GraphRenderer {
   constructor({root, width, height}) {
     this.svg = select(root)
     .append('svg')
-    .attr('class', 'graph')
+    .attr('class', 'graph');
+
+    this.resize({width, height});
+  }
+
+  resize({width, height}) {
+    this.svg
     .attr('width', width)
     .attr('height', height);
 
@@ -31,7 +37,6 @@ export default class GraphRenderer {
     });
   }
 
-
   render(progress) {
     const data = this.getData(progress);
 
@@ -39,14 +44,15 @@ export default class GraphRenderer {
     const linesEntered = lines.enter().append('g').attr('class', 'line');
 
     linesEntered
-    .attr('transform', (d, i) => `translate(0, ${i * this.lineHeight})`)
     .append('rect')
-    .attr('height', Math.ceil(this.lineHeight) + 1)
-    .attr('width', this.lineWidth)
     .attr('transform', d => `scale(${d}, 1)`);
 
     lines
+    .merge(linesEntered)
+    .attr('transform', (d, i) => `translate(0, ${i * this.lineHeight})`)
     .select('rect')
+    .attr('height', Math.ceil(this.lineHeight) + 1)
+    .attr('width', this.lineWidth)
     .transition()
     .ease(easeLinear)
     .duration(1000)
