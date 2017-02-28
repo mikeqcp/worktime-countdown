@@ -21,13 +21,20 @@ class AppComponent extends React.Component {
       progress: getProgress()
     };
 
-    this.inverval = setInterval(() => {
-      this.setState({progress: getProgress()})
-    }, 1000)
+    this.requestFrame = () => {
+      this.timeout = setTimeout(() => {
+        requestAnimationFrame(() => {
+          this.setState({progress: getProgress()});
+          this.requestFrame();
+        });
+      }, 1000)
+    };
+
+    this.requestFrame();
   }
 
   componentWillUnmount() {
-    clearInterval(this.inverval);
+    clearTimeout(this.timeout);
   }
 
   displayPercentage() {
