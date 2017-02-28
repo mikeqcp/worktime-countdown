@@ -6,14 +6,17 @@ body {
   fill: darkseagreen;
 }
 
-.percentage {
+.info {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2.5em;
-  line-height: 100%;
   display: inline-block;
-  color: steelblue;
   font-family: "Arial", sans-serif;
+  color: steelblue;
+  line-height: 100%;
+}
+
+.percentage {
+  font-size: 2.5em;
 }

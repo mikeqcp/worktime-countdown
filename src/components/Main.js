@@ -11,7 +11,7 @@ const endHour = 17;
 const daySeconds = (endHour - startHour) * 60 * 60;
 
 function getProgress() {
-  const diff = moment.duration(moment() - moment().hour(9).minute(0).second(0)).asSeconds();
+  const diff = moment.duration(moment() - moment().hour(startHour).minute(0).second(0)).asSeconds();
   return diff / daySeconds;
 }
 
@@ -35,11 +35,19 @@ class AppComponent extends React.Component {
     return _.round(this.state.progress * 100, 2);
   }
 
+  displayTimeLeft() {
+    const timeLeft = moment.duration(moment().hour(endHour).minute(0).second(0) - moment());
+    return `${timeLeft.hours()}h ${timeLeft.minutes()}min left`;
+  }
+
   render() {
     return (
       <section>
         <Graph progress={this.state.progress}/>
-        <h1 className="percentage">{this.displayPercentage()}%</h1>
+        <div className="info">
+          <h1 className="percentage">{this.displayPercentage()}%</h1>
+          <h2>{this.displayTimeLeft()}</h2>
+        </div>
       </section>
     );
   }
