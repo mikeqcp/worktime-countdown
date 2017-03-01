@@ -17,7 +17,7 @@ module.exports = function(state = initialState, {type, parameter}) {
   switch(type) {
     case HOURS: {
       return parameter;
-    } break;
+    }
     default: {
       /* Return original state if no actions were consumed. */
       return state;

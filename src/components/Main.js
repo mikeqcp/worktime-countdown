@@ -1,20 +1,12 @@
-require('normalize.css/normalize.css');
-require('styles/App.css');
-
 import React from 'react';
-import {connect} from 'react-redux';
 import Graph from './Graph/Graph';
 import moment from 'moment';
-import {setHours} from '../actions/hours';
 
-@connect(s => {
-  return {hours: s.hours};
-}, {setHours})
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: this.getProgress(),
+      progress: 0,
       ...this.updateTimeRange(this.props.hours)
     };
 
