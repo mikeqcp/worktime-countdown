@@ -1,6 +1,9 @@
 import React from 'react';
 import GraphRenderer from './renderer';
+import {connect} from 'react-redux';
 
+
+@connect(s => {return {progress: s.progress};}, {})
 export default class Graph extends React.Component {
   componentDidMount() {
     this.graphRenderer = new GraphRenderer({

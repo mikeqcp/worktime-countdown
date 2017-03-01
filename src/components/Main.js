@@ -6,7 +6,7 @@ class AppComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: 0,
+      progress: this.props.progress,
       ...this.updateTimeRange(this.props.hours)
     };
 
@@ -23,7 +23,7 @@ class AppComponent extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const newTimeRange = this.updateTimeRange(props);
+    const newTimeRange = this.updateTimeRange(props.hours);
     this.setState(newTimeRange);
   }
 
@@ -44,11 +44,11 @@ class AppComponent extends React.Component {
   getProgress() {
     const daySeconds = moment.duration(this.state.endTime - this.state.startTime).asSeconds();
     const diff = moment.duration(moment() - this.state.startTime).asSeconds();
-    return diff / daySeconds;
+    this.props.setProgress(diff / daySeconds);
   }
 
   displayPercentage() {
-    return parseFloat(this.state.progress * 100).toFixed(2);
+    return parseFloat(this.props.progress * 100).toFixed(2);
   }
 
   displayTimeLeft() {
@@ -59,7 +59,7 @@ class AppComponent extends React.Component {
   render() {
     return (
       <section>
-        <Graph progress={this.state.progress}/>
+        <Graph/>
         <div className="info">
           <h1 className="percentage">{this.displayPercentage()}%</h1>
           <h2>{this.displayTimeLeft()}</h2>

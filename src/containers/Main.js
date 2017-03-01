@@ -1,6 +1,8 @@
 import Main from '../components/Main';
 import {connect} from 'react-redux';
+import {setProgress} from '../actions/progress';
 
-export default connect(s => {
-  return {hours: s.hours};
-})(Main);
+export default connect(s => ({
+  progress: s.progress,
+  hours: s.hours
+}), {setProgress})(Main);
