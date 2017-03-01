@@ -25,7 +25,14 @@ export default class extends Component {
   }
 
   setStartTime(ev, startTime) {
-    this.setState({startTime});
+    const suggestedEndHour = Math.min(24, startTime.getHours() + 8);
+    const endTime = new Date(startTime);
+    endTime.setHours(suggestedEndHour);
+
+    this.setState({
+      startTime,
+      endTime
+    });
   }
 
   setEndTime(ev, endTime) {
