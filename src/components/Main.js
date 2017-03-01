@@ -8,15 +8,16 @@ import {GRAPH_LINES, PIXELS, NONE} from '../components/Graph/types';
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
+    const times = this.updateTimeRange(this.props.hours);
+    this.props.setProgress(this.getProgress(times));
     this.state = {
-      progress: this.props.progress,
-      ...this.updateTimeRange(this.props.hours)
+      ...times
     };
 
     this.requestFrame = () => {
       this.timeout = setTimeout(() => {
         requestAnimationFrame(() => {
-          this.setState({progress: this.getProgress()});
+          this.props.setProgress(this.getProgress());
           this.requestFrame();
         });
       }, 1000)
@@ -44,10 +45,10 @@ class AppComponent extends React.Component {
     };
   }
 
-  getProgress() {
-    const daySeconds = moment.duration(this.state.endTime - this.state.startTime).asSeconds();
-    const diff = moment.duration(moment() - this.state.startTime).asSeconds();
-    this.props.setProgress(diff / daySeconds);
+  getProgress(times = this.state) {
+    const daySeconds = moment.duration(times.endTime - times.startTime).asSeconds();
+    const diff = moment.duration(moment() - times.startTime).asSeconds();
+    return diff / daySeconds;
   }
 
   displayPercentage() {

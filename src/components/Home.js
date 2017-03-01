@@ -61,31 +61,37 @@ export default class extends Component {
       <div className="hours-select">
         <h2 className="hours-select__title">Your working hours:</h2>
 
-        <TimePicker
-          format="24hr"
-          hintText="Start time"
-          value={this.state.startTime}
-          onChange={this.setStartTime}
-        />
+        <div className="hours-select__pickers">
+          <TimePicker
+            className="hours-select__picker"
+            format="24hr"
+            hintText="Start time"
+            value={this.state.startTime}
+            onChange={this.setStartTime}
+          />
 
-        <span> - </span>
+          <span> - </span>
 
-        <TimePicker
-          format="24hr"
-          hintText="End time"
-          value={this.state.endTime}
-          onChange={this.setEndTime}
-        />
+          <TimePicker
+            className="hours-select__picker"
+            format="24hr"
+            hintText="End time"
+            value={this.state.endTime}
+            onChange={this.setEndTime}
+          />
+        </div>
 
         <h2>Visualisation type:</h2>
+
         <SelectField
+          className="hours-select__type"
           floatingLabelText="Visualisation type"
           value={this.props.graph}
           onChange={this.handleGraphChange}
         >
-          <MenuItem value={NONE} primaryText="Percentage only" />
+          <MenuItem value={NONE} primaryText="Text only" />
           <MenuItem value={GRAPH_LINES} primaryText="Lines" />
-          {/*<MenuItem value={PIXELS} primaryText="Pixels" />*/}
+          <MenuItem value={PIXELS} primaryText="Pixels" />
         </SelectField>
 
         <div>
