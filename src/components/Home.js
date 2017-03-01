@@ -2,6 +2,10 @@ import React, {Component} from 'react'
 import {browserHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TimePicker from 'material-ui/TimePicker';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
+import {GRAPH_LINES, NONE, PIXELS} from './Graph/types';
 
 export default class extends Component {
   constructor(props) {
@@ -22,6 +26,7 @@ export default class extends Component {
     this.proceed = this.proceed.bind(this);
     this.setStartTime = this.setStartTime.bind(this);
     this.setEndTime = this.setEndTime.bind(this);
+    this.handleGraphChange = this.handleGraphChange.bind(this);
   }
 
   setStartTime(ev, startTime) {
@@ -37,6 +42,10 @@ export default class extends Component {
 
   setEndTime(ev, endTime) {
     this.setState({endTime});
+  }
+
+  handleGraphChange(ev, index, type) {
+    this.props.setGraphType(type);
   }
 
   proceed() {
@@ -68,7 +77,20 @@ export default class extends Component {
           onChange={this.setEndTime}
         />
 
-        <RaisedButton className="hours-select__btn" onClick={this.proceed} label="OK"/>
+        <h2>Visualisation type:</h2>
+        <SelectField
+          floatingLabelText="Visualisation type"
+          value={this.props.graph}
+          onChange={this.handleGraphChange}
+        >
+          <MenuItem value={NONE} primaryText="Percentage only" />
+          <MenuItem value={GRAPH_LINES} primaryText="Lines" />
+          {/*<MenuItem value={PIXELS} primaryText="Pixels" />*/}
+        </SelectField>
+
+        <div>
+          <RaisedButton className="hours-select__btn" onClick={this.proceed} label="OK"/>
+        </div>
       </div>
     )
   }

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 
 @connect(s => {return {progress: s.progress};}, {})
-export default class Graph extends React.Component {
+export default class extends React.Component {
   componentDidMount() {
     this.graphRenderer = new GraphRenderer({
       root: this.root,

@@ -1,6 +1,9 @@
 import React from 'react';
-import Graph from './Graph/Graph';
+import LinesGraph from './Graph/Lines/Graph';
+import PixelsGraph from './Graph/Pixels/Pixels';
 import moment from 'moment';
+
+import {GRAPH_LINES, PIXELS, NONE} from '../components/Graph/types';
 
 class AppComponent extends React.Component {
   constructor(props) {
@@ -56,10 +59,21 @@ class AppComponent extends React.Component {
     return `${timeLeft.hours()}h ${timeLeft.minutes()}min left`;
   }
 
+  renderGraph() {
+    switch (this.props.graph) {
+      case NONE:
+        return null;
+      case GRAPH_LINES:
+        return <LinesGraph/>;
+      case PIXELS:
+        return <PixelsGraph/>;
+    }
+  }
+
   render() {
     return (
       <section>
-        <Graph/>
+        { this.renderGraph() }
         <div className="info">
           <h1 className="percentage">{this.displayPercentage()}%</h1>
           <h2>{this.displayTimeLeft()}</h2>

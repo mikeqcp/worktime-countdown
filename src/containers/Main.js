@@ -4,5 +4,6 @@ import {setProgress} from '../actions/progress';
 
 export default connect(s => ({
   progress: s.progress,
-  hours: s.hours
+  hours: s.hours,
+  graph: s.graph
 }), {setProgress})(Main);
