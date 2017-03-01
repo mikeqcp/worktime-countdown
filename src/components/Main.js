@@ -2,29 +2,26 @@ require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+import {connect} from 'react-redux';
 import Graph from './Graph/Graph';
 import moment from 'moment';
+import {setHours} from '../actions/hours';
 
-const startHour = 9;
-const endHour = 17;
-const daySeconds = (endHour - startHour) * 60 * 60;
-
-function getProgress() {
-  const diff = moment.duration(moment() - moment().hour(startHour).minute(0).second(0)).asSeconds();
-  return diff / daySeconds;
-}
-
+@connect(s => {
+  return {hours: s.hours};
+}, {setHours})
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: getProgress()
+      progress: this.getProgress(),
+      ...this.updateTimeRange(this.props.hours)
     };
 
     this.requestFrame = () => {
       this.timeout = setTimeout(() => {
         requestAnimationFrame(() => {
-          this.setState({progress: getProgress()});
+          this.setState({progress: this.getProgress()});
           this.requestFrame();
         });
       }, 1000)
@@ -33,8 +30,29 @@ class AppComponent extends React.Component {
     this.requestFrame();
   }
 
+  componentWillReceiveProps(props) {
+    const newTimeRange = this.updateTimeRange(props);
+    this.setState(newTimeRange);
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timeout);
+  }
+
+  updateTimeRange(hours) {
+    const [startHour, startMinutes] = hours.from;
+    const [endHour, endMinutes] = hours.to;
+
+    return {
+      startTime: moment().hour(startHour).minute(startMinutes).second(0),
+      endTime: moment().hour(endHour).minute(endMinutes).second(0)
+    };
+  }
+
+  getProgress() {
+    const daySeconds = moment.duration(this.state.endTime - this.state.startTime).asSeconds();
+    const diff = moment.duration(moment() - this.state.startTime).asSeconds();
+    return diff / daySeconds;
   }
 
   displayPercentage() {
@@ -42,7 +60,7 @@ class AppComponent extends React.Component {
   }
 
   displayTimeLeft() {
-    const timeLeft = moment.duration(moment().hour(endHour).minute(0).second(0) - moment());
+    const timeLeft = moment.duration(this.state.endTime - moment());
     return `${timeLeft.hours()}h ${timeLeft.minutes()}min left`;
   }
 

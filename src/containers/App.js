@@ -14,8 +14,8 @@ import Main from '../components/Main';
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   render() {
-    const {actions} = this.props;
-    return <Main actions={actions}/>;
+    const {actions, hours, graph} = this.props;
+    return <Main actions={actions} hours={hours} graph={graph}/>;
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -24,16 +24,24 @@ class App extends Component {
  *       adjust it here.
  */
 App.propTypes = {
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  hours: PropTypes.object.isRequired,
+  graph: PropTypes.object.isRequired
 };
 function mapStateToProps() {
   /* Populated by react-webpack-redux:reducer */
-  const props = {};
+  const props = {
+    hours: state.hours,
+    graph: state.graph
+  };
   return props;
 }
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
-  const actions = {};
+  const actions = {
+    hours: require('../actions/hours.js'),
+    graph: require('../actions/graph.js')
+  };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }

@@ -8,5 +8,8 @@
  */
 import { combineReducers } from 'redux';
 /* Populated by react-webpack-redux:reducer */
-const reducers = {};
+const reducers = {
+  hours: require('../reducers/hours.js'),
+  graph: require('../reducers/graph.js')
+};
 module.exports = combineReducers(reducers);
