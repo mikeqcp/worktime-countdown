@@ -49,7 +49,7 @@ export default class extends Component {
           format="24hr"
           hintText="Start time"
           value={this.state.startTime}
-          onChange={this.setEndTime}
+          onChange={this.setStartTime}
         />
 
         <span> - </span>

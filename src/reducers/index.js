@@ -11,6 +11,6 @@ import { combineReducers } from 'redux';
 const reducers = {
   hours: require('../reducers/hours.js'),
   graph: require('../reducers/graph.js'),
-  progress: require('../reducers/progress.js'),
+  progress: require('../reducers/progress.js')
 };
 module.exports = combineReducers(reducers);
