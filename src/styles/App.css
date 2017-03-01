@@ -1,12 +1,10 @@
 @import "Home.css";
 @import "Pixels.css";
+@import "Water.css";
+@import "Lines.css";
 
 body {
   background-color: beige;
-}
-
-.line rect {
-  fill: darkseagreen;
 }
 
 .info {

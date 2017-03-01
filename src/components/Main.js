@@ -1,9 +1,10 @@
 import React from 'react';
 import LinesGraph from './Graph/Lines/Graph';
 import PixelsGraph from './Graph/Pixels/Pixels';
+import WaterProgress from './Graph/Water/Water';
 import moment from 'moment';
 
-import {GRAPH_LINES, PIXELS, NONE} from '../components/Graph/types';
+import {GRAPH_LINES, PIXELS, NONE, WATER} from '../components/Graph/types';
 
 class AppComponent extends React.Component {
   constructor(props) {
@@ -61,14 +62,14 @@ class AppComponent extends React.Component {
   }
 
   renderGraph() {
-    switch (this.props.graph) {
-      case NONE:
-        return null;
-      case GRAPH_LINES:
-        return <LinesGraph/>;
-      case PIXELS:
-        return <PixelsGraph/>;
-    }
+    const graphsMap = {
+      [NONE]: null,
+      [GRAPH_LINES]: <LinesGraph/>,
+      [PIXELS]: <PixelsGraph/>,
+      [WATER]: <WaterProgress/>
+    };
+
+    return graphsMap[this.props.graph];
   }
 
   render() {

@@ -5,7 +5,7 @@ import TimePicker from 'material-ui/TimePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import {GRAPH_LINES, NONE, PIXELS} from './Graph/types';
+import {GRAPH_LINES, NONE, PIXELS, WATER} from './Graph/types';
 
 export default class extends Component {
   constructor(props) {
@@ -92,6 +92,7 @@ export default class extends Component {
           <MenuItem value={NONE} primaryText="Text only" />
           <MenuItem value={GRAPH_LINES} primaryText="Lines" />
           <MenuItem value={PIXELS} primaryText="Pixels" />
+          <MenuItem value={WATER} primaryText="Water" />
         </SelectField>
 
         <div>
