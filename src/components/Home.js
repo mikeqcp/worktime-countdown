@@ -53,6 +53,10 @@ export default class extends Component {
       from: [this.state.startTime.getHours(), this.state.startTime.getMinutes()],
       to: [this.state.endTime.getHours(), this.state.endTime.getMinutes()]
     });
+
+    ga('send', 'pageview', '/track');
+    ga('send', 'event', 'select', 'graph-selected', this.props.graph);
+
     browserHistory.push('/track');
   }
 
