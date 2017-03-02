@@ -2,9 +2,10 @@ import React from 'react';
 import LinesGraph from './Graph/Lines/Graph';
 import PixelsGraph from './Graph/Pixels/Pixels';
 import WaterProgress from './Graph/Water/Water';
+import DotProgress from './Graph/Dot/Dot';
 import moment from 'moment';
 
-import {GRAPH_LINES, PIXELS, NONE, WATER} from '../components/Graph/types';
+import {GRAPH_LINES, PIXELS, NONE, WATER, DOT} from '../components/Graph/types';
 
 class AppComponent extends React.Component {
   constructor(props) {
@@ -71,7 +72,8 @@ class AppComponent extends React.Component {
       [NONE]: null,
       [GRAPH_LINES]: <LinesGraph/>,
       [PIXELS]: <PixelsGraph/>,
-      [WATER]: <WaterProgress/>
+      [WATER]: <WaterProgress/>,
+      [DOT]: <DotProgress/>
     };
 
     return graphsMap[this.props.graph];
