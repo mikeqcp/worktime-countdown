@@ -1,6 +1,6 @@
 import {
   select,
-  easeLinear,
+  easeSinInOut as easing,
   scaleLinear,
   area,
   curveCardinal
@@ -37,11 +37,12 @@ export default class GraphRenderer {
     const wave = this.svg.selectAll('.area').data([progress]);
     const waveEntered = wave.enter().append('g').attr('class', 'area');
 
-    const waveHeight = .025;
+    const waveHeight = .02;
     const generateWaveData = (progress) => {
       const steps = 14;
       return _.times(steps + 1, i => {
-        return [i / steps, i % 2 == 0 ? progress : progress + waveHeight];
+        const mod = _.random(.75, 1.25, true) * waveHeight;
+        return [i / steps, i % 2 == 0 ? progress - mod : progress + mod];
       })
     };
 
@@ -55,7 +56,7 @@ export default class GraphRenderer {
     .merge(waveEntered)
     .select('path')
     .transition()
-    .ease(easeLinear)
+    .ease(easing)
     .duration(1000)
     .attr('d', d => areaGenerator(generateWaveData(d)));
   }
