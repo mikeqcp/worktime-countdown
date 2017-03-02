@@ -16,6 +16,17 @@ body {
   font-family: "Arial", sans-serif;
   color: steelblue;
   line-height: 100%;
+  text-align: center;
+}
+
+.info h1,
+.info h2 {
+  line-height: 100%;
+  margin: 10px;
+}
+
+.info__title--overtime {
+  color: orangered;
 }
 
 .percentage {

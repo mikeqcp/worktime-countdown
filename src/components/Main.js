@@ -53,12 +53,17 @@ class AppComponent extends React.Component {
   }
 
   displayPercentage() {
-    return parseFloat(this.props.progress * 100).toFixed(2);
+    return parseFloat(Math.min(this.props.progress, 1) * 100).toFixed(2);
   }
 
   displayTimeLeft() {
     const timeLeft = moment.duration(this.state.endTime - moment());
-    return `${timeLeft.hours()}h ${timeLeft.minutes()}min left`;
+    const overTime = this.state.endTime < moment();
+    return (
+      <h2 className={overTime ? 'info__title--overtime' : ''}>
+        {Math.abs(timeLeft.hours())}h {Math.abs(timeLeft.minutes())}min {overTime ? 'overtime' : 'left'}
+      </h2>
+    );
   }
 
   renderGraph() {
@@ -78,7 +83,7 @@ class AppComponent extends React.Component {
         { this.renderGraph() }
         <div className="info">
           <h1 className="percentage">{this.displayPercentage()}%</h1>
-          <h2>{this.displayTimeLeft()}</h2>
+          {this.displayTimeLeft()}
         </div>
       </section>
     );
