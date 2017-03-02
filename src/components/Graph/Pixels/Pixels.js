@@ -7,6 +7,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = this.getSize();
+    this.previousIndex = 0;
   }
 
   componentDidMount() {
@@ -18,7 +19,7 @@ export default class extends React.Component {
 
     this.ctx = this.canvas.getContext('2d');
     this.initCanvas();
-    this.updateCanvas();
+    this.updateCanvas(true);
   }
 
   componentDidUpdate() {
@@ -35,21 +36,42 @@ export default class extends React.Component {
     this.ctx.clearRect(0, 0, this.state.width, this.state.height);
   }
 
-  updateCanvas() {
-    const currPixel = this.pixels.length * this.props.progress;
+  updateCanvas(allGreen = false) {
+    const currPixel = Math.floor(this.pixels.length * this.props.progress);
+
+    if (allGreen) {
+      this.previousIndex = currPixel;
+    }
+
+    this.ctx.clearRect(0, 0, this.state.width, this.state.height);
 
     const canvasData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
 
-    for(let i = 0; i < currPixel; i++) {
-      const index = 4 * this.pixels[i];
-
-      canvasData.data[index] = 143;
-      canvasData.data[index + 1] = 188;
-      canvasData.data[index + 2] = 143;
-      canvasData.data[index + 3] = 255;
+    for(let i = 0; i < this.previousIndex; i++) {
+      this.drawPixel(canvasData, i, [143, 188, 143]);
     }
 
     this.ctx.putImageData(canvasData, 0, 0);
+
+    this.ctx.fillStyle = 'red';
+    for(let i = this.previousIndex; i < currPixel; i ++) {
+      const posIndex = this.pixels[i];
+      const x = Math.floor(posIndex % this.state.width);
+      const y = Math.floor(posIndex / this.state.width);
+
+      this.ctx.fillRect(x - 1, y - 1, 3, 3);
+    }
+
+    this.previousIndex = currPixel;
+  }
+
+  drawPixel(canvasData, i, [red, green, blue]) {
+    const index = 4 * this.pixels[i];
+
+    canvasData.data[index] = red;
+    canvasData.data[index + 1] = green;
+    canvasData.data[index + 2] = blue;
+    canvasData.data[index + 3] = 255;
   }
 
   getSize() {
