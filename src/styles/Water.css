@@ -1,0 +1,12 @@
+@keyframes wave {
+  from {transform: translateX(0)}
+  to {transform: translateX(-33.333%);}
+}
+
+.area {
+  animation-name: wave;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+}

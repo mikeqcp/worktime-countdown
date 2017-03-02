@@ -5,6 +5,7 @@ import {
   area,
   curveCardinal
 } from 'd3';
+import _ from 'lodash';
 
 export default class GraphRenderer {
   constructor({root, width, height}) {
@@ -24,7 +25,7 @@ export default class GraphRenderer {
   }
 
   render(progress) {
-    const x = scaleLinear().domain([0,1]).range([0, this.size.width]);
+    const x = scaleLinear().domain([0,1]).range([0, 1.5 * this.size.width]);
     const y = scaleLinear().domain([0,1]).range([this.size.height, 0]);
 
     const areaGenerator = area()
@@ -38,24 +39,21 @@ export default class GraphRenderer {
 
     const waveHeight = .025;
     const generateWaveData = (progress) => {
-      return [
-        [0, progress - waveHeight],
-        [.25, progress + waveHeight],
-        [.5, progress - waveHeight],
-        [.75, progress + waveHeight],
-        [1, progress - waveHeight],
-      ]
+      const steps = 14;
+      return _.times(steps + 1, i => {
+        return [i / steps, i % 2 == 0 ? progress : progress + waveHeight];
+      })
     };
 
     waveEntered
-    .attr('transform', 'translate(0,0)')
     .append('path')
     .attr('fill', 'darkseagreen')
-    .attr('d', d => areaGenerator(generateWaveData(0)));
+    .attr('d', () => areaGenerator(generateWaveData(0)));
+
 
     wave
     .merge(waveEntered)
-    .selectAll('path')
+    .select('path')
     .transition()
     .ease(easeLinear)
     .duration(1000)
