@@ -59,10 +59,14 @@ class AppComponent extends React.Component {
 
   displayTimeLeft() {
     const timeLeft = moment.duration(this.state.endTime - moment());
+
+    let minutes = timeLeft.minutes();
+    minutes = (minutes === 0 && timeLeft.seconds() > 0) ? 1 : minutes;
+
     const overTime = this.state.endTime < moment();
     return (
       <h2 className={overTime ? 'info__title--overtime' : ''}>
-        {Math.abs(timeLeft.hours())}h {Math.abs(timeLeft.minutes())}min {overTime ? 'overtime' : 'left'}
+        {Math.abs(timeLeft.hours())}h {Math.abs(minutes)}min {overTime ? 'overtime' : 'left'}
       </h2>
     );
   }

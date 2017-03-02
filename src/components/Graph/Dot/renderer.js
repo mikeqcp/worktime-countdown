@@ -25,7 +25,7 @@ export default class GraphRenderer {
   render(progress) {
     const x = scaleLinear().domain([0,1]).range([0, this.size.width]);
     const y = scaleLinear().domain([0,1]).range([this.size.height, 0]);
-    const diagonal = Math.sqrt(this.size.width ** 2 + this.size.width ** 2);
+    const diagonal = Math.sqrt(this.size.width ** 2 + this.size.height ** 2);
     const rad = scaleLinear().domain([0,1]).range([0, .5 * diagonal])
 
     const dotGenerator = d => {
